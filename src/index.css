@@ -15,8 +15,8 @@
     --warning-soft: 25 95% 53%;         /* naranja suave para descuentos */
     
     /* Core System */
-    --background: var(--primary-intense);
-    --foreground: 0 0% 100%; /* blanco puro */
+    --background: 0 0% 100%; /* fondo blanco */
+    --foreground: 220 13% 18%; /* texto oscuro */
 
     --card: 0 0% 100%; /* tarjetas blancas */
     --card-foreground: 220 13% 18%; /* texto oscuro en tarjetas */
@@ -61,8 +61,8 @@
   }
 
   .dark {
-    --background: var(--primary-intense);
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 220 13% 18%;
 
     --card: 0 0% 100%;
     --card-foreground: 220 13% 18%;

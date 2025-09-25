@@ -72,44 +72,46 @@ const InputsCard: React.FC<InputsCardProps> = ({ onCalculate, onClear, loading =
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <label htmlFor="basic-salary" className="text-sm font-medium text-card-foreground">
-            Sueldo Básico (S/)
-          </label>
-          <Input
-            id="basic-salary"
-            type="text"
-            placeholder="Ej: 3000"
-            value={basicSalary}
-            onChange={(e) => handleNumberInput(e.target.value, setBasicSalary)}
-            className="text-lg font-mono"
-            autoComplete="off"
-          />
-          {basicSalary && (
-            <p className="text-sm text-muted-foreground">
-              {formatCurrency(basicSalary)}
-            </p>
-          )}
-        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label htmlFor="basic-salary" className="text-sm font-medium text-card-foreground">
+              Sueldo Básico (S/)
+            </label>
+            <Input
+              id="basic-salary"
+              type="text"
+              placeholder="Ej: 3000"
+              value={basicSalary}
+              onChange={(e) => handleNumberInput(e.target.value, setBasicSalary)}
+              className="text-base font-mono bg-input"
+              autoComplete="off"
+            />
+            {basicSalary && (
+              <p className="text-xs text-muted-foreground">
+                {formatCurrency(basicSalary)}
+              </p>
+            )}
+          </div>
 
-        <div className="space-y-2">
-          <label htmlFor="food-allowance" className="text-sm font-medium text-card-foreground">
-            Vales de Alimentación (S/)
-          </label>
-          <Input
-            id="food-allowance"
-            type="text"
-            placeholder="Ej: 300"
-            value={foodAllowance}
-            onChange={(e) => handleNumberInput(e.target.value, setFoodAllowance)}
-            className="text-lg font-mono"
-            autoComplete="off"
-          />
-          {foodAllowance && (
-            <p className="text-sm text-muted-foreground">
-              {formatCurrency(foodAllowance)}
-            </p>
-          )}
+          <div className="space-y-2">
+            <label htmlFor="food-allowance" className="text-sm font-medium text-card-foreground">
+              Vales de Alimentación (S/)
+            </label>
+            <Input
+              id="food-allowance"
+              type="text"
+              placeholder="Ej: 300"
+              value={foodAllowance}
+              onChange={(e) => handleNumberInput(e.target.value, setFoodAllowance)}
+              className="text-base font-mono bg-input"
+              autoComplete="off"
+            />
+            {foodAllowance && (
+              <p className="text-xs text-muted-foreground">
+                {formatCurrency(foodAllowance)}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center space-x-2">

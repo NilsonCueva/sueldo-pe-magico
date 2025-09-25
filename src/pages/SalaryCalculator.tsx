@@ -33,19 +33,19 @@ const SalaryCalculator: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-primary">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-foreground/10">
+      <header className="sticky top-0 z-50 bg-primary backdrop-blur-sm border-b border-muted">
         <div className="container mx-auto px-4 py-4">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-primary-foreground text-center">
               💰 Sueldo Neto Perú 2025
             </h1>
-            <p className="text-foreground/80 text-center mt-2 text-sm sm:text-base">
+            <p className="text-primary-foreground/90 text-center mt-2 text-sm sm:text-base">
               Calculadora completa con AFP, 5ta categoría y gratificaciones
             </p>
           </motion.div>
@@ -120,19 +120,19 @@ const SalaryCalculator: React.FC = () => {
 
         {/* Footer Info */}
         <motion.footer
-          className="mt-12 py-8 border-t border-foreground/10"
+          className="mt-12 py-8 border-t border-muted"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
-          <div className="text-center text-foreground/60 space-y-2">
+          <div className="text-center text-muted-foreground space-y-2">
             <p className="text-sm">
-              ✨ Calculadora actualizada para Perú 2025 - UIT: S/ 5,150
+              ✨ Calculadora actualizada para Perú 2025 - UIT: S/ 5,350
             </p>
             <p className="text-xs">
               Incluye AFP (13.25%), 5ta categoría por tramos progresivos, gratificaciones y bono salud
             </p>
-            <p className="text-xs text-foreground/40">
+            <p className="text-xs text-muted-foreground/70">
               Los resultados son referenciales. Consulta con un especialista para casos específicos.
             </p>
           </div>

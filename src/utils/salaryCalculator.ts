@@ -60,17 +60,17 @@ export interface SalaryBreakdown {
 
 // Parámetros Perú 2025
 const PERU_TAX_PARAMS_2025 = {
-  UIT: 5150, // Unidad Impositiva Tributaria 2025
+  UIT: 5350, // Unidad Impositiva Tributaria 2025
   AFP_RATE: 0.1325, // 13.25% (Prima + Comisión + Aporte)
   FAMILY_ALLOWANCE: 102.5, // Asignación familiar mensual
   
   // Tramos de 5ta categoría (sobre ingresos anuales > 7 UIT)
   FIFTH_CATEGORY_BRACKETS: [
-    { from: 0, to: 36750, rate: 0.08 },      // 8% hasta 7 UIT
-    { from: 36750, to: 110250, rate: 0.14 }, // 14% de 7 a 21 UIT  
-    { from: 110250, to: 220500, rate: 0.17 }, // 17% de 21 a 42 UIT
-    { from: 220500, to: 367500, rate: 0.20 }, // 20% de 42 a 70 UIT
-    { from: 367500, to: Infinity, rate: 0.30 } // 30% más de 70 UIT
+    { from: 0, to: 37450, rate: 0.08 },      // 8% hasta 7 UIT
+    { from: 37450, to: 112350, rate: 0.14 }, // 14% de 7 a 21 UIT  
+    { from: 112350, to: 224700, rate: 0.17 }, // 17% de 21 a 42 UIT
+    { from: 224700, to: 374500, rate: 0.20 }, // 20% de 42 a 70 UIT
+    { from: 374500, to: Infinity, rate: 0.30 } // 30% más de 70 UIT
   ],
   
   DEDUCTION_UIT: 7, // 7 UIT de deducción para 5ta categoría
