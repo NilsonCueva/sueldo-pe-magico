@@ -15,6 +15,4 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // 👇 IMPORTANTE: aquí defines el nombre exacto de tu repo
-  base: "/sueldo-pe-magico/",
 }));
