@@ -8,8 +8,6 @@ interface ChartsPanelProps {
   afpDeduction: number;
   fifthCategoryTax: number;
   netSalary: number;
-  annualGross: number;
-  annualNet: number;
 }
 
 const ChartsPanel: React.FC<ChartsPanelProps> = ({
@@ -17,8 +15,6 @@ const ChartsPanel: React.FC<ChartsPanelProps> = ({
   afpDeduction,
   fifthCategoryTax,
   netSalary,
-  annualGross,
-  annualNet,
 }) => {
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('es-PE', {
@@ -34,12 +30,12 @@ const ChartsPanel: React.FC<ChartsPanelProps> = ({
     {
       name: 'Sueldo Neto',
       value: netSalary,
-      color: '#10b981', // green-500
+      color: '#4014b8ff', // teal-500
     },
     {
       name: 'AFP',
       value: afpDeduction,
-      color: '#f97316', // orange-500
+      color: '#d134e6ff', // orange-500
     },
     {
       name: '5ta Categoría',
@@ -54,11 +50,6 @@ const ChartsPanel: React.FC<ChartsPanelProps> = ({
       name: 'Mensual',
       Bruto: grossSalary,
       Neto: netSalary,
-    },
-    {
-      name: 'Anual',
-      Bruto: annualGross / 12, // Dividido por 12 para visualización proporcional
-      Neto: annualNet / 12,
     },
   ];
 
@@ -171,7 +162,7 @@ const ChartsPanel: React.FC<ChartsPanelProps> = ({
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold text-card-foreground flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-primary" />
-            Comparativa Bruto vs Neto
+            Comparativa Mensual: Bruto vs Neto
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -201,14 +192,13 @@ const ChartsPanel: React.FC<ChartsPanelProps> = ({
                 <Legend />
                 <Bar 
                   dataKey="Bruto" 
-                  fill="#3b82f6" 
+                  fill="#1e0efaff" 
                   name="Bruto"
                   radius={[4, 4, 0, 0]}
-                  animationDuration={1200}
                 />
                 <Bar 
                   dataKey="Neto" 
-                  fill="#10b981" 
+                  fill="#22a0f5ff" 
                   name="Neto"
                   radius={[4, 4, 0, 0]}
                   animationDuration={1200}

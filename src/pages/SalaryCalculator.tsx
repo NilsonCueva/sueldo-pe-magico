@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import InputsCard, { SalaryInputs } from '@/components/salary/InputsCard';
+import InputsCard from '@/components/salary/InputsCard';
 import KPICards from '@/components/salary/KPICards';
 import AnnualMetrics from '@/components/salary/AnnualMetrics';
 import ChartsPanel from '@/components/salary/ChartsPanel';
 import BreakdownAccordion from '@/components/salary/BreakdownAccordion';
-import { calculateSalary, SalaryResults } from '@/utils/salaryCalculator';
+import { calculateSalary } from '@/utils/salaryCalculator';
+import type { SalaryInputs, SalaryResults } from '@/utils/salaryCalculator';
 
 const SalaryCalculator: React.FC = () => {
   const [results, setResults] = useState<SalaryResults | null>(null);
@@ -13,16 +14,13 @@ const SalaryCalculator: React.FC = () => {
 
   const handleCalculate = useCallback(async (inputs: SalaryInputs) => {
     setLoading(true);
-    
-    // Simular un pequeño delay para mostrar loading (opcional)
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
+    // solo para mostrar spinner suave
+    await new Promise((resolve) => setTimeout(resolve, 500));
     try {
       const calculatedResults = calculateSalary(inputs);
       setResults(calculatedResults);
     } catch (error) {
       console.error('Error calculating salary:', error);
-      // Aquí podrías mostrar un toast de error
     } finally {
       setLoading(false);
     }
@@ -32,51 +30,72 @@ const SalaryCalculator: React.FC = () => {
     setResults(null);
   }, []);
 
+  // Derivados para AnnualMetrics (según lo que devuelve el motor)
+  const regime = (results as any)?.regime ?? 'NORMAL';
+  const healthScheme = (results as any)?.healthScheme ?? 'ESSALUD';
+  const healthRateLabel = healthScheme === 'EPS' ? '6.75%' : '9%';
+  const riaAliquots = (results as any)?.riaAliquots ?? null;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-primary backdrop-blur-sm border-b border-muted">
-        <div className="container mx-auto px-4 py-4">
+      <header className="sticky top-0 z-50 bg-white border-b-4 border-blue-600">
+        <div
+          className="
+            container mx-auto px-4 py-3 sm:py-4
+            grid grid-cols-[1fr_auto] items-start gap-2
+            sm:flex sm:items-center sm:justify-between
+          "
+        >
+          {/* Bloque de texto */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="flex-1"
           >
-            <h1 className="text-2xl sm:text-3xl font-bold text-primary-foreground text-center">
-              💰 Sueldo Neto Perú 2025
+            <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 text-left">
+              💰 Sueldo Neto Perú
             </h1>
-            <p className="text-primary-foreground/90 text-center mt-2 text-sm sm:text-base">
+            {/* Subtítulo → oculto en móvil, visible en sm+ */}
+            <p className="hidden sm:block text-blue-700/90 text-left mt-2 text-sm sm:text-base">
               Calculadora completa con AFP, 5ta categoría y gratificaciones
             </p>
           </motion.div>
+
+          {/* Logo → pequeño en móvil, normal en sm+ */}
+          <img
+            src="/Intercorp_Retail.svg"
+            alt="Intercorp Retail Logo"
+            className="
+              h-8 w-auto max-w-[120px] object-contain
+              sm:h-10 sm:max-w-[250px] sm:ml-4
+            "
+            style={{ maxHeight: '40px' }}
+          />
         </div>
       </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column - Inputs (Desktop) / Top (Mobile) */}
+          {/* Left Column - Inputs */}
           <motion.div
             className="lg:col-span-4 space-y-6"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <InputsCard 
-              onCalculate={handleCalculate}
-              onClear={handleClear}
-              loading={loading}
-            />
+            <InputsCard onCalculate={handleCalculate} onClear={handleClear} loading={loading} />
           </motion.div>
 
-          {/* Right Column - Results (Desktop) / Bottom (Mobile) */}
+          {/* Right Column - Results */}
           <motion.div
             className="lg:col-span-8 space-y-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {/* KPI Cards */}
             <KPICards
               grossSalary={results?.grossMonthlySalary || 0}
               afpDeduction={results?.afpDeduction || 0}
@@ -85,7 +104,6 @@ const SalaryCalculator: React.FC = () => {
               loading={loading}
             />
 
-            {/* Annual Metrics */}
             {(results || loading) && (
               <AnnualMetrics
                 annualGrossIncome={results?.annualGrossIncome || 0}
@@ -95,47 +113,35 @@ const SalaryCalculator: React.FC = () => {
                 totalAnnualIncome={results?.totalAnnualIncome || 0}
                 netAnnualSalary={results?.netAnnualSalary || 0}
                 loading={loading}
+                /* === props extra para la UI condicional === */
+                regime={regime}
+                healthRateLabel={healthRateLabel}
+                riaAliquots={riaAliquots} // null en NORMAL; objeto en RIA
+                annualFoodAllowance={results?.annualFoodAllowance || 0}
               />
             )}
 
-            {/* Charts */}
             {results && !loading && (
               <ChartsPanel
                 grossSalary={results.grossMonthlySalary}
                 afpDeduction={results.afpDeduction}
                 fifthCategoryTax={results.fifthCategoryTax}
                 netSalary={results.netMonthlySalary}
-                annualGross={results.annualGrossIncome}
-                annualNet={results.netAnnualSalary}
               />
             )}
 
-            {/* Detailed Breakdown */}
-            <BreakdownAccordion
-              breakdown={results?.breakdown || null}
-              loading={loading}
-            />
+            <BreakdownAccordion breakdown={results?.breakdown || null} loading={loading} />
           </motion.div>
         </div>
 
-        {/* Footer Info */}
+        {/* Footer */}
         <motion.footer
           className="mt-12 py-8 border-t border-muted"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
-          <div className="text-center text-muted-foreground space-y-2">
-            <p className="text-sm">
-              ✨ Calculadora actualizada para Perú 2025 - UIT: S/ 5,350
-            </p>
-            <p className="text-xs">
-              Incluye AFP (13.25%), 5ta categoría por tramos progresivos, gratificaciones y bono salud
-            </p>
-            <p className="text-xs text-muted-foreground/70">
-              Los resultados son referenciales. Consulta con un especialista para casos específicos.
-            </p>
-          </div>
+          
         </motion.footer>
       </main>
     </div>
